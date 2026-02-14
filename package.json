@@ -16,7 +16,7 @@
     "container": "DOCKER_BUILDKIT=0 docker build --build-arg GITHUB_TOKEN=$GITHUB_TOKEN --build-arg SPA_UTILS_VERSION=0.1.0 -t {{org.docker_host}}/{{org.docker_org}}/{{info.slug}}_{{service.name}}_spa:latest .",
     "push": "docker push {{org.docker_host}}/{{org.docker_org}}/{{info.slug}}_{{service.name}}_spa:latest",
     "open": "open -a 'Google Chrome' 'http://localhost:{{repo.port}}' || google-chrome 'http://localhost:{{repo.port}}' || exg-open 'localhost:{{repo.port}}'",
-    "build-publish": "npm install --dev && npm run container && npm run push"
+    "build-publish": "npm install --include=dev && npm run container && npm run push"
   },
   "dependencies": {
     "@{{org.git_org}}/{{info.slug}}_spa_utils": "^0.1.0",
