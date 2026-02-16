@@ -15,19 +15,8 @@ import type {
 
 const API_BASE = '/api'
 
-/**
- * Get the dev-login URL.
- * In container mode (when window.API_HOST is set), uses proxied /dev-login endpoint.
- * In local dev mode, uses direct connection to template_api on localhost:8184.
- */
 function getDevLoginUrl(): string {
-  // Check if we're in container mode (window.API_HOST injected by start.sh)
-  if (typeof window !== 'undefined' && (window as any).API_HOST) {
-    // Use proxied endpoint in container mode
-    return '/dev-login'
-  }
-  // Use direct connection in local dev mode
-  return 'http://localhost:8184/dev-login'
+  return '/dev-login'
 }
 
 class ApiError extends Error {

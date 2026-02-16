@@ -35,7 +35,7 @@ describe('API Client', () => {
 
       expect(result).toEqual(mockResponse)
       expect(mockFetch).toHaveBeenCalledWith(
-        'http://localhost:8184/dev-login',
+        '/dev-login',
         expect.objectContaining({
           method: 'POST',
           headers: expect.objectContaining({

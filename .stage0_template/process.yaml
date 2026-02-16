@@ -64,6 +64,8 @@ templates:
     merge: true
   - path: "./package.json"
     merge: true
+  - path: "./vite.config.ts"
+    merge: true
   - path: "./src/composables/useRoles.ts"
     merge: true
   - path: "./src/router/index.ts"
