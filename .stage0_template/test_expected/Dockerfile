@@ -32,12 +32,10 @@ ENV API_PORT=8389
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
 
-# envsubst for runtime config; inject API_HOST/PORT into index.html for SPA
+# envsubst for runtime nginx config (API_HOST/API_PORT in proxy_pass)
 RUN apk add --no-cache gettext
 
 EXPOSE 80
 
-# Native config: envsubst + index.html injection + nginx (no custom start script)
-CMD sh -c "envsubst '${API_HOST} ${API_PORT}' < /etc/nginx/nginx.conf.template > /tmp/nginx.conf && \
-  sed -i \"s|</head>|<script>window.API_HOST='${API_HOST}';window.API_PORT='${API_PORT}';</script></head>|\" /usr/share/nginx/html/index.html 2>/dev/null || true && \
-  exec nginx -g 'daemon off;' -c /tmp/nginx.conf"
+# Note: \${API_HOST} \${API_PORT} must be escaped so the shell passes them literally to envsubst
+CMD sh -c "envsubst '\${API_HOST} \${API_PORT}' < /etc/nginx/nginx.conf.template > /tmp/nginx.conf && exec nginx -g 'daemon off;' -c /tmp/nginx.conf"
