@@ -20,10 +20,10 @@ describe('Control Domain', () => {
     cy.visit('/controls/new')
     
     const timestamp = Date.now()
-    const controlName = `test-control-${timestamp}`
+    const itemName = `test-control-${timestamp}`
     
     // Use automation IDs for reliable element selection
-    cy.get('[data-automation-id="control-new-name-input"]').type(controlName)
+    cy.get('[data-automation-id="control-new-name-input"]').type(itemName)
     cy.get('[data-automation-id="control-new-description-input"]').type('Test description for Cypress')
     cy.get('[data-automation-id="control-new-submit-button"]').click()
     
@@ -32,17 +32,17 @@ describe('Control Domain', () => {
     cy.url().should('not.include', '/controls/new')
     
     // Verify the control name is displayed on edit page
-    cy.get('[data-automation-id="control-edit-name-input"]').find('input').should('have.value', controlName)
+    cy.get('[data-automation-id="control-edit-name-input"]').find('input').should('have.value', itemName)
   })
 
   it('should update a control', () => {
     // First create a control
     cy.visit('/controls/new')
     const timestamp = Date.now()
-    const controlName = `test-control-update-${timestamp}`
+    const itemName = `test-control-update-${timestamp}`
     const updatedName = `updated-control-${timestamp}`
     
-    cy.get('[data-automation-id="control-new-name-input"]').type(controlName)
+    cy.get('[data-automation-id="control-new-name-input"]').type(itemName)
     cy.get('[data-automation-id="control-new-description-input"]').type('Original description')
     cy.get('[data-automation-id="control-new-submit-button"]').click()
     
@@ -91,9 +91,9 @@ describe('Control Domain', () => {
     // First create a control with a unique name
     cy.visit('/controls/new')
     const timestamp = Date.now()
-    const controlName = `search-test-${timestamp}`
+    const itemName = `search-test-${timestamp}`
     
-    cy.get('[data-automation-id="control-new-name-input"]').type(controlName)
+    cy.get('[data-automation-id="control-new-name-input"]').type(itemName)
     cy.get('[data-automation-id="control-new-description-input"]').type('Search test description')
     cy.get('[data-automation-id="control-new-submit-button"]').click()
     cy.url().should('include', '/controls/')
@@ -105,38 +105,16 @@ describe('Control Domain', () => {
     cy.get('table').should('exist')
     
     // Search for the control
-    cy.get('[data-automation-id="control-list-search"]').find('input').type(controlName)
+    cy.get('[data-automation-id="control-list-search"]').find('input').type(itemName)
     // Wait for debounce (300ms) plus API call
     cy.wait(800)
     
     // Verify the search results contain the control
-    cy.get('table tbody').should('contain', controlName)
+    cy.get('table tbody').should('contain', itemName)
     
     // Clear search and verify all controls are shown again
     cy.get('[data-automation-id="control-list-search"]').find('input').clear()
     cy.wait(800)
     cy.get('table').should('exist')
   })
-
-  // Skipping infinite scroll test per instructions
-  // it('should load more controls with infinite scroll', () => {
-  //   cy.visit('/controls')
-  //   
-  //   // Wait for initial load
-  //   cy.get('table').should('exist')
-  //   
-  //   // Check if load more button exists (may not if all items are loaded)
-  //   cy.get('body').then(($body) => {
-  //     if ($body.find('[data-automation-id="control-list-load-more"]').length > 0) {
-  //       // Click load more if available
-  //       cy.get('[data-automation-id="control-list-load-more"]').click()
-  //       cy.wait(1000)
-  //       // Verify table still exists and has data
-  //       cy.get('table').should('exist')
-  //     } else {
-  //       // If no load more button, verify table exists (all items loaded)
-  //       cy.get('table').should('exist')
-  //     }
-  //   })
-  // })
 })

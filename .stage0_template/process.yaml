@@ -68,7 +68,25 @@ templates:
     merge: true
   - path: "./cypress.config.ts" 
     merge: true
+  - path: "./cypress/e2e/control.cy.template.ts"
+    mergeFor:
+      items: service.data_domains.controls
+      output: "./cypress/e2e/{{item | lower}}.cy.ts"
+  - path: "./cypress/e2e/create.cy.template.ts"
+    mergeFor:
+      items: service.data_domains.creates
+      output: "./cypress/e2e/{{item | lower}}.cy.ts"
+  - path: "./cypress/e2e/consume.cy.template.ts"
+    mergeFor:
+      items: service.data_domains.consumes
+      output: "./cypress/e2e/{{item | lower}}.cy.ts"
   - path: "./src/composables/useRoles.ts"
+    merge: true
+  - path: "./src/pages/LoginPage.template.vue"
+    output: "./src/pages/LoginPage.vue"
+    merge: true
+  - path: "./src/pages/AdminPage.template.vue"
+    output: "./src/pages/AdminPage.vue"
     merge: true
   - path: "./src/router/index.ts"
     merge: true
