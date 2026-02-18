@@ -2,9 +2,12 @@ import type {
   Control,
   ControlInput,
   ControlUpdate,
+
   Create,
   CreateInput,
+
   Consume,
+
   DevLoginRequest, 
   DevLoginResponse,
   ConfigResponse,
@@ -126,6 +129,7 @@ export const api = {
   // Control endpoints
   // 🎯 API methods use InfiniteScrollParams and InfiniteScrollResponse types
   // These types are compatible with spa_utils useInfiniteScroll composable
+
   async getControls(params?: InfiniteScrollParams): Promise<InfiniteScrollResponse<Control>> {
     const queryParams = new URLSearchParams()
     if (params?.name) queryParams.append('name', params.name)
@@ -156,7 +160,10 @@ export const api = {
     })
   },
 
+
+
   // Create endpoints
+
   async getCreates(params?: InfiniteScrollParams): Promise<InfiniteScrollResponse<Create>> {
     const queryParams = new URLSearchParams()
     if (params?.name) queryParams.append('name', params.name)
@@ -180,7 +187,10 @@ export const api = {
     })
   },
 
+
+
   // Consume endpoints
+
   async getConsumes(params?: InfiniteScrollParams): Promise<InfiniteScrollResponse<Consume>> {
     const queryParams = new URLSearchParams()
     if (params?.name) queryParams.append('name', params.name)
@@ -196,6 +206,8 @@ export const api = {
   async getConsume(consumeId: string): Promise<Consume> {
     return request<Consume>(`/consume/${consumeId}`)
   },
+
+
 }
 
 export { ApiError }

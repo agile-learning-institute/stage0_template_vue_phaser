@@ -11,8 +11,9 @@ export interface Breadcrumb {
   correlation_id: string
 }
 
-// Control Domain
-export interface Control {
+{% for item in service.data_domains.controls %}
+// {{ item }} Domain
+export interface {{ item }} {
   _id: string
   name: string
   description?: string
@@ -21,20 +22,21 @@ export interface Control {
   saved: Breadcrumb
 }
 
-export interface ControlInput {
+export interface {{ item }}Input {
   name: string
   description?: string
   status?: 'active' | 'archived'
 }
 
-export interface ControlUpdate {
+export interface {{ item }}Update {
   name?: string
   description?: string
   status?: 'active' | 'archived'
 }
-
-// Create Domain
-export interface Create {
+{% endfor %}
+{% for item in service.data_domains.creates %}
+// {{ item }} Domain
+export interface {{ item }} {
   _id: string
   name: string
   description?: string
@@ -42,19 +44,21 @@ export interface Create {
   created: Breadcrumb
 }
 
-export interface CreateInput {
+export interface {{ item }}Input {
   name: string
   description?: string
   status?: string
 }
-
-// Consume Domain
-export interface Consume {
+{% endfor %}
+{% for item in service.data_domains.consumes %}
+// {{ item }} Domain
+export interface {{ item }} {
   _id: string
   name: string
   description?: string
   status?: string
 }
+{% endfor %}
 
 // Authentication
 export interface DevLoginRequest {
@@ -95,3 +99,4 @@ export interface InfiniteScrollResponse<T> {
   has_more: boolean
   next_cursor: string | null
 }
+

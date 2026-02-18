@@ -11,6 +11,7 @@ export interface Breadcrumb {
   correlation_id: string
 }
 
+
 // Control Domain
 export interface Control {
   _id: string
@@ -33,6 +34,7 @@ export interface ControlUpdate {
   status?: 'active' | 'archived'
 }
 
+
 // Create Domain
 export interface Create {
   _id: string
@@ -48,6 +50,7 @@ export interface CreateInput {
   status?: string
 }
 
+
 // Consume Domain
 export interface Consume {
   _id: string
@@ -55,6 +58,7 @@ export interface Consume {
   description?: string
   status?: string
 }
+
 
 // Authentication
 export interface DevLoginRequest {

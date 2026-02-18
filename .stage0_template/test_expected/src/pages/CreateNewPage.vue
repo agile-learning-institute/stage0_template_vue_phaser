@@ -96,9 +96,9 @@ const rules = {
   descriptionPattern: validationRules.descriptionPattern,
 }
 
-const { mutate: createCreate, isPending } = useMutation({
+const { mutate: createCreate, isPending } = useMutation<{ _id: string }, Error, CreateInput>({
   mutationFn: (data: CreateInput) => api.createCreate(data),
-  onSuccess: (response) => {
+  onSuccess: (response: { _id: string }) => {
     queryClient.invalidateQueries({ queryKey: ['creates'] })
     router.push(`/creates/${response._id}`)
     errorRef.value = null

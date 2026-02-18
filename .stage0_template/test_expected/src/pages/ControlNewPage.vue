@@ -99,9 +99,9 @@ const rules = {
   descriptionPattern: validationRules.descriptionPattern,
 }
 
-const { mutate: createControl, isPending } = useMutation({
+const { mutate: createControl, isPending } = useMutation<{ _id: string }, Error, ControlInput>({
   mutationFn: (data: ControlInput) => api.createControl(data),
-  onSuccess: (response) => {
+  onSuccess: (response: { _id: string }) => {
     queryClient.invalidateQueries({ queryKey: ['controls'] })
     router.push(`/controls/${response._id}`)
     errorRef.value = null
