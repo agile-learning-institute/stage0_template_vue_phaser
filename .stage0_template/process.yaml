@@ -82,6 +82,21 @@ templates:
   - path: "./src/api/client.template.ts"
     output: "./src/api/client.ts"
     merge: true
+  - path: "./src/api/client.test.template.ts"
+    output: "./src/api/client.test.ts"
+    merge: true
+  - path: "./src/api/client.test.control.template.ts"
+    mergeFor:
+      items: service.data_domains.controls
+      output: "./src/api/{{item}}.client.test.ts"
+  - path: "./src/api/client.test.create.template.ts"
+    mergeFor:
+      items: service.data_domains.creates
+      output: "./src/api/{{item}}.client.test.ts"
+  - path: "./src/api/client.test.consume.template.ts"
+    mergeFor:
+      items: service.data_domains.consumes
+      output: "./src/api/{{item}}.client.test.ts"
 
   # Control domain pages (one per service.data_domains.controls)
   - path: "./src/pages/ControlsListPage.template.vue"
