@@ -104,6 +104,11 @@ const drawer = ref(false)
 
 const hasAdminRole = hasRole('admin')
 
+// Close temporary drawer when route changes (e.g. after clicking nav link)
+router.afterEach(() => {
+  drawer.value = false
+})
+
 onMounted(async () => {
   // Load config if user is already authenticated (e.g., on page reload)
   if (isAuthenticated.value) {

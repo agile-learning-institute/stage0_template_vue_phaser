@@ -8,7 +8,7 @@ describe('Navigation Drawer', () => {
     cy.get('[data-automation-id="nav-drawer-toggle"]').should('be.visible')
     cy.get('[data-automation-id="nav-drawer-toggle"]').click()
     
-    // Check that drawer is visible
+    // Check that drawer is visible with domain sections
     cy.contains('CONTROL DOMAIN').should('be.visible')
     cy.contains('CREATE DOMAIN').should('be.visible')
     cy.contains('CONSUME DOMAIN').should('be.visible')
