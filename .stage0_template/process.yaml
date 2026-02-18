@@ -80,6 +80,8 @@ templates:
     mergeFor:
       items: service.data_domains.consumes
       output: "./cypress/e2e/{{item | lower}}.cy.ts"
+  - path: "./cypress/e2e/navigation.cy.ts"
+    merge: true
   - path: "./src/composables/useRoles.ts"
     merge: true
   - path: "./src/pages/LoginPage.template.vue"

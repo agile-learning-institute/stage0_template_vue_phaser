@@ -13,7 +13,6 @@ describe('Navigation Drawer', () => {
     cy.contains('CREATE DOMAIN').should('be.visible')
     cy.contains('CONSUME DOMAIN').should('be.visible')
   })
-
   it('should have all control domain links in drawer', () => {
     cy.visit('/controls')
     cy.get('[data-automation-id="nav-drawer-toggle"]').click()
@@ -21,7 +20,6 @@ describe('Navigation Drawer', () => {
     cy.get('[data-automation-id="nav-controls-list-link"]').should('be.visible')
     cy.get('[data-automation-id="nav-controls-new-link"]').should('be.visible')
   })
-
   it('should have all create domain links in drawer', () => {
     cy.visit('/controls')
     cy.get('[data-automation-id="nav-drawer-toggle"]').click()
@@ -29,7 +27,6 @@ describe('Navigation Drawer', () => {
     cy.get('[data-automation-id="nav-creates-list-link"]').should('be.visible')
     cy.get('[data-automation-id="nav-creates-new-link"]').should('be.visible')
   })
-
   it('should have consume domain link in drawer', () => {
     cy.visit('/controls')
     cy.get('[data-automation-id="nav-drawer-toggle"]').click()
