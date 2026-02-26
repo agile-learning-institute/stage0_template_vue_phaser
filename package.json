@@ -16,7 +16,10 @@
     "container": "DOCKER_BUILDKIT=0 docker build --build-arg GITHUB_TOKEN=$GITHUB_TOKEN -t {{org.docker_host}}/{{org.docker_org}}/{{info.slug}}_{{service.name}}_spa:latest .",
     "push": "docker push {{org.docker_host}}/{{org.docker_org}}/{{info.slug}}_{{service.name}}_spa:latest",
     "open": "open -a 'Google Chrome' 'http://localhost:{{repo.port}}' || google-chrome 'http://localhost:{{repo.port}}' || exg-open 'localhost:{{repo.port}}'",
-    "build-publish": "npm install --include=dev && npm run container && npm run push"
+    "build-publish": "npm install --include=dev && npm run container && npm run push",
+    "build-package": "npm install --include=dev && npm run container",
+    "publish-package": "npm run push",
+    "delete-package": "echo delete-package: use gh api -X DELETE for container"
   },
   "dependencies": {
     "@{{org.git_org}}/{{info.slug}}_spa_utils": "^0.1.0",
