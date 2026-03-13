@@ -48,7 +48,8 @@ requires:
   - repo.type
 
 templates:
-  - path: "./.github/workflows/docker-push.yml"
+  - path: "./.github/workflows/docker-push.yml.template"
+    output: "./.github/workflows/docker-push.yml"
     merge: true
   - path: "./LICENSE"
     merge: true
