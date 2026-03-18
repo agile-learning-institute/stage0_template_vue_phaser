@@ -37,19 +37,20 @@ describe('API Client - Game Endpoints', () => {
     expect(mockFetch).toHaveBeenCalledWith('/api/game', expect.any(Object))
   })
 
-  it('should get most recent game (no id)', async () => {
-    const mockGame = { _id: '507f1f77bcf86cd799439011', name: 'recent', status: 'active' as const, created: breadcrumb, saved: breadcrumb }
-
+  it('should get games with name query (placeholder "my game" uses name=user_id)', async () => {
+    const mockResponse = { items: [], limit: 50, has_more: false, next_cursor: null }
     mockFetch.mockResolvedValueOnce({
       ok: true,
       status: 200,
       headers: { get: (name: string) => name === 'content-length' ? '100' : null },
-      json: async () => mockGame
+      json: async () => mockResponse
     })
 
-    const result = await api.getGame()
-    expect(result).toEqual(mockGame)
-    expect(mockFetch).toHaveBeenCalledWith('/api/game', expect.any(Object))
+    await api.getGames({ name: 'user-123', limit: 50, sort_by: 'created.at_time', order: 'desc' })
+    expect(mockFetch).toHaveBeenCalledWith(
+      '/api/game?name=user-123&limit=50&sort_by=created.at_time&order=desc',
+      expect.any(Object)
+    )
   })
 
   it('should get a single game by id', async () => {

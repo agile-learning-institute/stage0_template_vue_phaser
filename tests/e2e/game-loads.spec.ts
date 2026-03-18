@@ -30,8 +30,14 @@ test.describe('Game screen', () => {
   })
 
   test('game loads: container and canvas visible when API returns data', async ({ page }) => {
+    const gameListResponse = { items: [mockGame], limit: 50, has_more: false, next_cursor: null }
+
     await page.route('**/api/config', (route) => route.fulfill({ status: 200, body: JSON.stringify(mockConfig) }))
-    await page.route('**/api/game**', (route) => route.fulfill({ status: 200, body: JSON.stringify(mockGame) }))
+    await page.route('**/api/game**', (route) => {
+      const url = route.request().url()
+      const body = url.match(/\/api\/game\/[^/]+$/) ? mockGame : gameListResponse
+      return route.fulfill({ status: 200, body: JSON.stringify(body) })
+    })
     await page.route('**/api/player/**', (route) => route.fulfill({ status: 200, body: JSON.stringify(mockPlayer) }))
 
     await page.goto('/')

@@ -123,7 +123,7 @@ export const api = {
   },
 
   // Game endpoints
-  // GET /game returns user's most recent game; GET /game/:id for specific game (e.g. launch by another microservice)
+  // Placeholder "my game" flow: GET /game?name={user_id} and pick latest from items (sort by created if needed)
   async getGames(params?: InfiniteScrollParams): Promise<InfiniteScrollResponse<Game>> {
     const queryParams = new URLSearchParams()
     if (params?.name) queryParams.append('name', params.name)
@@ -136,12 +136,9 @@ export const api = {
     return request<InfiniteScrollResponse<Game>>(`/game${query ? `?${query}` : ''}`)
   },
 
-  /** Get most recent game (no id) or specific game by id */
-  async getGame(gameId?: string): Promise<Game> {
-    if (gameId) {
-      return request<Game>(`/game/${gameId}`)
-    }
-    return request<Game>('/game')
+  /** Get a specific game by id (e.g. /play/:game_id or after update) */
+  async getGame(gameId: string): Promise<Game> {
+    return request<Game>(`/game/${gameId}`)
   },
 
   async createGame(data: GameInput): Promise<{ _id: string }> {

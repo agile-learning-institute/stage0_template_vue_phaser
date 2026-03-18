@@ -47,7 +47,26 @@ async function loadInitialData() {
       return
     }
 
-    const gameRes = await api.getGame((route.params.game_id as string) || undefined)
+    let gameRes: Game
+    const gameIdFromRoute = route.params.game_id as string | undefined
+    if (gameIdFromRoute) {
+      gameRes = await api.getGame(gameIdFromRoute)
+    } else {
+      const list = await api.getGames({
+        name: pid,
+        limit: 50,
+        sort_by: 'created.at_time',
+        order: 'desc'
+      })
+      const latest = list.items?.[0]
+      if (!latest) {
+        error.value = 'No game found'
+        loading.value = false
+        return
+      }
+      gameRes = latest
+    }
+
     gameIdRef.value = gameRes._id
     game.value = gameRes
 

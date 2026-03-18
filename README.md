@@ -47,7 +47,7 @@ No navigation drawer; app bar has title “Game”, Admin (if admin), and Logout
 ## API: Game / Event / Player
 
 - **Player** — `playerId` comes from `config.token.user_id` (or `config.token.claims.sub`). Endpoints: `GET /api/player`, `GET /api/player/:id`.
-- **Game** — `GET /api/game` returns the user’s most recent game; `GET /api/game/:id` for a specific game. Progress is updated via `PATCH /api/game/:id` (e.g. `description` or other minimal fields; document any new progress fields here).
+- **Game** — Placeholder “my game” flow: `GET /api/game?name={user_id}` (where `user_id` = `config.token.user_id`), then pick the latest game from the list (e.g. sort by `created.at_time` desc, take first). For a specific game use `GET /api/game/:id`. Progress: `PATCH /api/game/:id`.
 - **Event** — Fine-grained events: `POST /api/event` with body `{ player_id, name }` where `name` is a one-word slug (e.g. `move`, `jump`).
 
 See `src/api/types.ts` and `src/api/client.ts` for types and methods.
