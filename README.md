@@ -40,6 +40,9 @@ npm run cypress
 ## run Cypress E2E tests headlessly
 npm run cypress:run
 
+## run Playwright E2E tests (game screen)
+npm run test:e2e:game
+
 ## de down and start db + api containers
 npm run api 
 
@@ -131,9 +134,8 @@ See the [spa_utils README](../spa_utils/README.md) for complete documentation an
 - Coverage report: `npm run test:coverage`
 
 ### E2E Tests
-- Uses Cypress for end-to-end testing
-- Tests cover main user flows: login, CRUD operations for each domain
-- Run tests: `npm run cypress` (interactive) or `npm run cypress:run` (headless)
+- **Cypress** — Used for non-game flows: login, redirect, admin. Run: `npm run cypress` (interactive) or `npm run cypress:run` (headless).
+- **Playwright** — Used for the game screen: a simple “game loads” test (e.g. canvas present, overlay or game UI). See [Playwright documentation](https://playwright.dev/docs/intro) to run and extend game E2E tests.
 
 ## Adding New Features
 
