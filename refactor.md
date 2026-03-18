@@ -232,5 +232,5 @@ Decisions in §6 are recorded; the refactor can be completed per this plan.
 | 3. Game page scaffold | ✅ Done | phaser ^3.80; src/game/bootstrap.ts + MainScene; GamePage.vue mounts/destroys Phaser canvas |
 | 4. API-driven gameplay | ✅ Done | GamePage fetches config/game/player; apiContext with recordEvent + updateGameProgress; MainScene: click-to-move sprite, recordEvent('move'), throttle updateGame (every 3 clicks); overlay player + progress; error overlay + retry |
 | 5. E2E (Cypress + Playwright) | ✅ Done | Cypress: navigation.cy.ts (login redirect, /play, game container, admin, logout); removed control/create/consume; Playwright: tests/e2e/game-loads.spec.ts (redirect, container+canvas with mocked API); test:e2e:game script |
-| 6. README and branding | Pending | |
-| 7. Cleanup | Pending | |
+| 6. README and branding | ✅ Done | README as-built: Game/Event/Player API, routes, Phaser flow, E2E (Cypress + Playwright link); app title Game |
+| 7. Cleanup | ✅ Done | Vitest exclude tests/e2e so Playwright specs not run as unit tests; unit tests 61 pass |

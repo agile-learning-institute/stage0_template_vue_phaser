@@ -1,173 +1,90 @@
-# template_spa
+# template_spa (Game)
 
-This repository contains a Vue 3 single-page application (SPA) for the sample service.
+Vue 3 + Phaser 3 SPA: **Login**, **Admin**, and a full-screen **Game** route. The game uses the API to load player/game state, record fine-grained events, and update game progress.
 
 ## Prerequisites
+
 - Mentor Hub [Developers Edition](https://github.com/agile-learning-institute/mentorhub/blob/main/CONTRIBUTING.md)
 - Developer [SPA Standard Prerequisites](https://github.com/agile-learning-institute/mentorhub/blob/main/DeveloperEdition/standards/spa_standards.md)
 
 ## Quick Start
 
 ```sh
-## Just run the service
-npm run service 
+npm run service
 ```
 
 ## Developer Commands
 
 ```sh
-## install dependencies
-npm install 
+npm install
+npm run build
+npm run dev
 
-## package code for deployment
-npm run build 
-
-## run dev server, assumes api is running - captures command line
-npm run dev 
-
-## run unit tests
 npm run test
-
-## run unit tests with coverage
 npm run test:coverage
-
-## run unit tests with UI
 npm run test:ui
 
-## run Cypress E2E tests
 npm run cypress
-
-## run Cypress E2E tests headlessly
 npm run cypress:run
+npm run test:e2e:game   # Playwright game E2E
 
-## run Playwright E2E tests (game screen)
-npm run test:e2e:game
-
-## de down and start db + api containers
-npm run api 
-
-## de down and start db + api + spa containers and open 
-npm run service 
-
-## open page in the browser
+npm run api
+npm run service
 npm run open
-
-## Build SPA docker container locally
-npm run container 
+npm run container
 ```
 
-## Architecture Overview
+## Routes
+
+- **`/`** — Redirects to `/play` (or `/login` if unauthenticated).
+- **`/login`** — Login (uses `/dev-login`; JWT in localStorage).
+- **`/play`** — Full-screen Phaser game (user’s most recent game).
+- **`/play/:game_id`** — Full-screen game for a specific game (e.g. launch by another microservice).
+- **`/admin`** — Admin page (requires `admin` role).
+
+No navigation drawer; app bar has title “Game”, Admin (if admin), and Logout.
+
+## API: Game / Event / Player
+
+- **Player** — `playerId` comes from `config.token.user_id` (or `config.token.claims.sub`). Endpoints: `GET /api/player`, `GET /api/player/:id`.
+- **Game** — `GET /api/game` returns the user’s most recent game; `GET /api/game/:id` for a specific game. Progress is updated via `PATCH /api/game/:id` (e.g. `description` or other minimal fields; document any new progress fields here).
+- **Event** — Fine-grained events: `POST /api/event` with body `{ player_id, name }` where `name` is a one-word slug (e.g. `move`, `jump`).
+
+See `src/api/types.ts` and `src/api/client.ts` for types and methods.
+
+## Game (Phaser) Flow
+
+1. **GamePage.vue** loads config, game (most recent or by `game_id` from route), and player.
+2. It builds an **apiContext** (playerId, gameId, player, game, `recordEvent`, `updateGameProgress`) and passes it into the Phaser bootstrap.
+3. **MainScene** (and any other scenes) use the context: on click/tap they call `recordEvent({ player_id, name: 'move' })` and, every N actions, `updateGameProgress(patch)`.
+4. Overlay shows player name and game progress (e.g. `game.description`). On API failure, an error overlay with Retry is shown.
+
+## Architecture
 
 ```
 src/
-  api/              # API client layer (types.ts, client.ts)
-  components/       # App-specific UI components (admin components)
-  pages/            # Route-level components (List, New, Edit/View pages)
-  composables/      # App-specific composables (useAuth, useConfig, useRoles wrapper)
-  stores/           # Pinia stores (UI state only)
-  router/           # Vue Router configuration
-  plugins/          # Vuetify plugin configuration
+  api/           # Game/Event/Player types and client
+  game/          # Phaser bootstrap, apiContext, scenes (e.g. MainScene)
+  pages/         # LoginPage, AdminPage, GamePage
+  composables/   # useAuth, useConfig, useRoles
+  stores/        # UI state
+  router/        # /login, /play, /play/:game_id, /admin
+  plugins/       # Vuetify
 ```
-
-**Note**: This template uses `@agile-learning-institute/mentorhub_spa_utils` for reusable components, composables, and utilities. See the [spa_utils README](../spa_utils/README.md) for complete documentation on available components (`AutoSaveField`, `AutoSaveSelect`, `ListPageSearch`), composables (`useResourceList`, `useErrorHandler`, `useRoles`), and utilities (`formatDate`, `validationRules`).
-
-## Domain Model
-
-This template implements three domains:
-
-### Control Domain
-- **List Page** (`/controls`) - Searchable data table with query support
-- **New Page** (`/controls/new`) - Form with required fields only
-- **Edit Page** (`/controls/:id`) - Full form with save-on-blur for each field
-
-### Create Domain
-- **List Page** (`/creates`) - Data table listing all creates
-- **New Page** (`/creates/new`) - Form with all properties
-- **View Page** (`/creates/:id`) - Read-only detail view
-
-### Consume Domain
-- **List Page** (`/consumes`) - Searchable data table with query support
-- **View Page** (`/consumes/:id`) - Read-only detail view
-
-## Key Implementation Patterns
-
-### Authentication
-- JWT tokens stored in localStorage (`access_token`, `token_expires_at`)
-- `useAuth()` composable manages authentication state
-- Login page uses `/dev-login` endpoint (proxied in dev, direct URL in containers)
-- Router guards protect routes requiring authentication
-
-### API Client
-- Located in `src/api/client.ts`
-- All API calls include JWT token from localStorage
-- Error handling via `ApiError` class
-- Type-safe with TypeScript interfaces in `src/api/types.ts`
-
-### Data Fetching
-- Uses TanStack Query (Vue Query) for server state management
-- Query keys follow pattern: `['resource', id]` or `['resources']`
-- Mutations invalidate related queries on success
-- Use `useResourceList` composable from `spa_utils` for list pages with search support
-- Example: `useQuery({ queryKey: ['control', id], queryFn: () => api.getControl(id) })`
-
-### Reusable Components and Composables
-This template uses components and composables from `@aagile-learning-institute/mentorhub_spa_utils`:
-- **Components**: `AutoSaveField`, `AutoSaveSelect`, `ListPageSearch`
-- **Composables**: `useResourceList`, `useErrorHandler`, `useRoles`
-- **Utilities**: `formatDate`, `validationRules`
-
-See the [spa_utils README](../spa_utils/README.md) for complete documentation and usage examples.
-
-### Component Architecture
-- **Pages**: Own routing, data fetching, and mutations. Pass data + callbacks to components.
-- **Components**: App-specific components (admin components). Reusable components come from `spa_utils`.
-- **Composables**: App-specific logic (authentication, config). Reusable composables come from `spa_utils`.
-- **Stores**: UI-only state (loading, error messages, etc.)
 
 ## Testing
 
-### Unit Tests
-- Uses Vitest for unit testing
-- Test coverage target: 90%
-- Tests cover: API client, composables, and components
-- Run tests: `npm run test`
-- Coverage report: `npm run test:coverage`
-
-### E2E Tests
-- **Cypress** — Used for non-game flows: login, redirect, admin. Run: `npm run cypress` (interactive) or `npm run cypress:run` (headless).
-- **Playwright** — Used for the game screen: a simple “game loads” test (e.g. canvas present, overlay or game UI). See [Playwright documentation](https://playwright.dev/docs/intro) to run and extend game E2E tests.
-
-## Adding New Features
-
-When adding a new resource or feature:
-
-1. **Add API Types**: Extend `src/api/types.ts` with new interfaces
-2. **Add API Methods**: Add methods to `src/api/client.ts`
-3. **Create Pages**: Follow the appropriate pattern (List/New/Edit or List/New/View)
-4. **Add Routes**: Register routes in `src/router/index.ts`
-5. **Use spa_utils Components**: For edit pages with PATCH support, use `AutoSaveField`/`AutoSaveSelect` from `spa_utils`. For list pages, use `useResourceList` and `ListPageSearch`.
-6. **Query Management**: Use Vue Query for data fetching with appropriate query keys
-7. **Cache Invalidation**: Invalidate related queries in mutation `onSuccess` callbacks
-8. **Error Handling**: Use `useErrorHandler` from `spa_utils` for consistent error handling
-9. **Write Tests**: Add unit tests and E2E tests for new functionality (note: common components are tested in `spa_utils`)
+- **Unit** — Vitest: `npm run test`. Covers API client (Game/Event/Player) and composables.
+- **E2E — Cypress** — Login, redirect to `/play`, game container, admin, logout. `npm run cypress` or `npm run cypress:run`.
+- **E2E — Playwright** — Game screen: unauthenticated redirect; with mocked API, game container and canvas visible. `npm run test:e2e:game`. See [Playwright documentation](https://playwright.dev/docs/intro).
 
 ## Technology Stack
-- Vue 3 with Composition API
-- TypeScript 5.9
-- Vite 7.2
-- Vuetify 3.11
-- Vue Router 4
-- Pinia 3
-- TanStack Query (Vue Query) v5
-- Vitest v3 (unit testing)
-- Cypress v15.8 (E2E testing)
 
-## Automation Support
-
-All interactive elements in this SPA include `data-automation-id` attributes following the `{domain}-{page}-{element}` naming convention.
+- Vue 3, TypeScript, Vite 7, Vuetify 3, Vue Router, Pinia, TanStack Query
+- Phaser 3
+- Vitest (unit), Cypress (E2E non-game), Playwright (E2E game)
 
 ## Configuration
-- Runtime configuration available at `/api/config` endpoint
-- Use enumerator values from config, not hardcoded in OpenAPI spec
-- Docker container uses `API_HOST` and `API_PORT` environment variables for API proxy configuration
-- Container listens on port 80 internally; map host port to container port 80 (e.g., `8185:80` in docker-compose)
+
+- Config: `/api/config`. `playerId` from `config.token.user_id` (or `config.token.claims`).
+- Dev proxy: `/api` and `/dev-login` → `http://localhost:8389`.
