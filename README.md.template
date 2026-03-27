@@ -1,11 +1,11 @@
-# template_spa (Play)
+# {{ info.name }} — {{ service.name | replace('_', ' ') | title }} SPA (Play)
 
 Vue 3 + Phaser 3 SPA: **Login**, **Admin**, and a full-screen **Play** route. The app uses the API to load control/consume state, record fine-grained create events, and update control progress.
 
 ## Prerequisites
 
-- {{ info.name }} [Developers Edition](https://github.com/{{ org.git_org }}/mentorhub/blob/main/CONTRIBUTING.md)
-- Developer [SPA Standard Prerequisites](https://github.com/{{ org.git_org }}/mentorhub/blob/main/DeveloperEdition/standards/spa_standards.md)
+- {{ info.name }} [Developers Edition]({{ org.git_host }}/{{ org.git_org }}/{{ info.slug }}/blob/main/CONTRIBUTING.md)
+- Developer [SPA Standard Prerequisites]({{ org.git_host }}/{{ org.git_org }}/{{ info.slug }}/blob/main/DeveloperEdition/standards/spa_standards.md)
 
 ## Quick Start
 

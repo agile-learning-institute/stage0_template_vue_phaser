@@ -1,11 +1,11 @@
-# template_spa (Play)
+# Game Star — Game SPA (Play)
 
 Vue 3 + Phaser 3 SPA: **Login**, **Admin**, and a full-screen **Play** route. The app uses the API to load control/consume state, record fine-grained create events, and update control progress.
 
 ## Prerequisites
 
-- Game Star [Developers Edition](https://github.com/agile-learning-institute/mentorhub/blob/main/CONTRIBUTING.md)
-- Developer [SPA Standard Prerequisites](https://github.com/agile-learning-institute/mentorhub/blob/main/DeveloperEdition/standards/spa_standards.md)
+- Game Star [Developers Edition](https://github.com/agile-learning-institute/star/blob/main/CONTRIBUTING.md)
+- Developer [SPA Standard Prerequisites](https://github.com/agile-learning-institute/star/blob/main/DeveloperEdition/standards/spa_standards.md)
 
 ## Quick Start
 
