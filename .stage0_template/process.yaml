@@ -60,6 +60,12 @@ templates:
   - path: "./package.json"
     merge: true
 
+  # Cypress (spa_utils JWT auth + shared page specs)
+  - path: "./cypress.config.ts"
+    merge: true
+  - path: "./cypress/support/e2e.ts"
+    merge: true
+
   # API types and client (data-domain driven)
   - path: "./src/api/types.ts"
     merge: true
