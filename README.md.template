@@ -4,6 +4,7 @@ Vue 3 + Phaser 3 SPA: **Login**, **Admin**, and a full-screen **Play** route. Th
 
 ## Prerequisites
 
+- **Node.js 24+** (see `package.json` `engines`)
 - {{ info.name }} [Developers Edition]({{ org.git_host }}/{{ org.git_org }}/{{ info.slug }}/blob/main/CONTRIBUTING.md)
 - Developer [SPA Standard Prerequisites]({{ org.git_host }}/{{ org.git_org }}/{{ info.slug }}/blob/main/DeveloperEdition/standards/spa_standards.md)
 
