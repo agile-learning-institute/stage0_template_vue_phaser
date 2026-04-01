@@ -4,6 +4,7 @@ Vue 3 + Phaser 3 SPA: **Login**, **Admin**, and a full-screen **Play** route. Th
 
 ## Prerequisites
 
+- **Node.js 24+** (see `package.json` `engines`)
 - Game Star [Developers Edition](https://github.com/agile-learning-institute/star/blob/main/CONTRIBUTING.md)
 - Developer [SPA Standard Prerequisites](https://github.com/agile-learning-institute/star/blob/main/DeveloperEdition/standards/spa_standards.md)
 

@@ -1,5 +1,5 @@
-# Build stage
-FROM node:20-alpine AS build
+# Build stage (Node 24+; aligns with package.json engines)
+FROM node:24-alpine AS build
 
 RUN apk add --no-cache git
 
