@@ -1,5 +1,3 @@
-import { bootstrapDevAuthFromUrl } from '@agile-learning-institute/mentorhub_spa_utils'
-import { rehydrateAuthFromStorage } from '@/composables/useAuth'
+import { bootstrapAuthFromUrl } from '@{{org.git_org}}/{{info.slug}}_spa_utils'
 
-bootstrapDevAuthFromUrl()
-rehydrateAuthFromStorage()
+bootstrapAuthFromUrl()

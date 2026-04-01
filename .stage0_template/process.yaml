@@ -87,11 +87,17 @@ templates:
     merge: true
 
   # Pages and app shell
+  - path: "./src/bootstrap-auth.ts"
+    merge: true
   - path: "./src/pages/GamePage.vue"
+    merge: true
+  - path: "./src/pages/AdminPage.vue"
     merge: true
   - path: "./src/App.vue"
     merge: true
   - path: "./src/router/index.ts"
+    merge: true
+  - path: "./src/composables/useRoles.ts"
     merge: true
 
   # Game layer (Phaser)

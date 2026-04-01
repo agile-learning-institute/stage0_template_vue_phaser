@@ -13,7 +13,7 @@ function readStorageIntoRefs(): void {
 
 readStorageIntoRefs()
 
-/** Call after `bootstrapDevAuthFromUrl()` so refs match localStorage (import order safe). */
+/** Re-read localStorage into refs after external auth writes tokens. */
 export function rehydrateAuthFromStorage(): void {
   readStorageIntoRefs()
 }
